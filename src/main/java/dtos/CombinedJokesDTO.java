@@ -18,6 +18,14 @@ public class CombinedJokesDTO {
         this.joke2Reference = chuckDTO.getUrl();
         
     }
+    public CombinedJokesDTO (String joke1, String joke1Reference, String joke2, String joke2Reference){
+        this.joke1 = joke1;
+        this.joke1Reference = joke1Reference;
+        this.joke2=joke2;
+        this.joke2Reference=joke2Reference;
+        
+        
+    }
 
     public String getJoke1() {
         return joke1;

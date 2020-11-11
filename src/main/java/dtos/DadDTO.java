@@ -21,8 +21,6 @@ public class DadDTO {
     public DadDTO() {
     }
     
-    
-
     public String getUrl() {
         return url;
     }
