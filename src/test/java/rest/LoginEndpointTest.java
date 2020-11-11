@@ -1,8 +1,6 @@
 package rest;
-
 import entities.User;
 import entities.Role;
-
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 import io.restassured.http.ContentType;
@@ -21,13 +19,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
-
 //@Disabled
 public class LoginEndpointTest {
-
     private static final int SERVER_PORT = 7777;
     private static final String SERVER_URL = "http://localhost/api";
-
     static final URI BASE_URI = UriBuilder.fromUri(SERVER_URL).port(SERVER_PORT).build();
     private static HttpServer httpServer;
     private static EntityManagerFactory emf;
@@ -36,20 +31,17 @@ public class LoginEndpointTest {
         ResourceConfig rc = ResourceConfig.forApplication(new ApplicationConfig());
         return GrizzlyHttpServerFactory.createHttpServer(BASE_URI, rc);
     }
-
     @BeforeAll
     public static void setUpClass() {
         //This method must be called before you request the EntityManagerFactory
         EMF_Creator.startREST_TestWithDB();
         emf = EMF_Creator.createEntityManagerFactoryForTest();
-
         httpServer = startServer();
         //Setup RestAssured
         RestAssured.baseURI = SERVER_URL;
         RestAssured.port = SERVER_PORT;
         RestAssured.defaultParser = Parser.JSON;
     }
-
     @AfterAll
     public static void closeTestServer() {
         //Don't forget this, if you called its counterpart in @BeforeAll
@@ -57,7 +49,6 @@ public class LoginEndpointTest {
         
         httpServer.shutdownNow();
     }
-
     // Setup the DataBase (used by the test-server and this test) in a known state BEFORE EACH TEST
     //TODO -- Make sure to change the EntityClass used below to use YOUR OWN (renamed) Entity class
     @BeforeEach
@@ -68,7 +59,6 @@ public class LoginEndpointTest {
             //Delete existing users and roles to get a "fresh" database
             em.createQuery("delete from User").executeUpdate();
             em.createQuery("delete from Role").executeUpdate();
-
             Role userRole = new Role("user");
             Role adminRole = new Role("admin");
             User user = new User("user", "test");
@@ -89,10 +79,8 @@ public class LoginEndpointTest {
             em.close();
         }
     }
-
     //This is how we hold on to the token after login, similar to that a client must store the token somewhere
     private static String securityToken;
-
     //Utility method to login and set the returned securityToken
     private static void login(String role, String password) {
         String json = String.format("{username: \"%s\", password: \"%s\"}", role, password);
@@ -105,16 +93,13 @@ public class LoginEndpointTest {
                 .extract().path("token");
         //System.out.println("TOKEN ---> " + securityToken);
     }
-
     private void logOut() {
         securityToken = null;
     }
-
     @Test
     public void serverIsRunning() {
         given().when().get("/info").then().statusCode(200);
     }
-
     @Test
     public void testRestNoAuthenticationRequired() {
         given()
@@ -124,7 +109,6 @@ public class LoginEndpointTest {
                 .statusCode(200)
                 .body("msg", equalTo("Hello anonymous"));
     }
-
     @Test
     public void testRestForAdmin() {
         login("admin", "test");
@@ -137,7 +121,6 @@ public class LoginEndpointTest {
                 .statusCode(200)
                 .body("msg", equalTo("Hello to (admin) User: admin"));
     }
-
     @Test
     public void testRestForUser() {
         login("user", "test");
@@ -149,7 +132,6 @@ public class LoginEndpointTest {
                 .statusCode(200)
                 .body("msg", equalTo("Hello to User: user"));
     }
-
     @Test
     public void testAutorizedUserCannotAccesAdminPage() {
         login("user", "test");
@@ -160,7 +142,6 @@ public class LoginEndpointTest {
                 .get("/info/admin").then() //Call Admin endpoint as user
                 .statusCode(401);
     }
-
     @Test
     public void testAutorizedAdminCannotAccesUserPage() {
         login("admin", "test");
@@ -171,7 +152,6 @@ public class LoginEndpointTest {
                 .get("/info/user").then() //Call User endpoint as Admin
                 .statusCode(401);
     }
-
     @Test
     public void testRestForMultiRole1() {
         login("user_admin", "test");
@@ -184,7 +164,6 @@ public class LoginEndpointTest {
                 .statusCode(200)
                 .body("msg", equalTo("Hello to (admin) User: user_admin"));
     }
-
     @Test
     public void testRestForMultiRole2() {
         login("user_admin", "test");
@@ -196,7 +175,6 @@ public class LoginEndpointTest {
                 .statusCode(200)
                 .body("msg", equalTo("Hello to User: user_admin"));
     }
-
     @Test
     public void userNotAuthenticated() {
         logOut();
@@ -208,7 +186,6 @@ public class LoginEndpointTest {
                 .body("code", equalTo(403))
                 .body("message", equalTo("Not authenticated - do login"));
     }
-
     @Test
     public void adminNotAuthenticated() {
         logOut();
@@ -220,5 +197,4 @@ public class LoginEndpointTest {
                 .body("code", equalTo(403))
                 .body("message", equalTo("Not authenticated - do login"));
     }
-
 }
