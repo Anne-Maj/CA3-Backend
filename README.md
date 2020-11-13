@@ -5,8 +5,9 @@ Instructions for a quick start project
 
 Link to frontend: https://github.com/jbndk/CA3-Frontend
 
-Backend
 
+
+Backend
 - Clone the project from GitHub
 - Delete the folder named ".git"
 - Create a new repository on GitHub
@@ -29,8 +30,8 @@ created in MySql
 - Check that Travis has deployed it to your droplet.
 
 
-Frontend
 
+Frontend
 - Clone the GitHub repo
 - Change the URL in the settings.js folder
 - Type "npm start" to see the project in your browser
