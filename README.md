@@ -18,7 +18,7 @@ after your domain.
 - Set up two local databases in MySql ("DATABASE" and "DATABASE_TEST")
 - In the file, "persistence.xml", change the name of the database and the test database to the ones you just
 created in MySql
-- In Netbeans, run the file "SetupTestUsers.java" to fill the database with users and roles
+- In Netbeans, run the file "SetupTestUsers.java", and check that the database now contains users and roles
 - Migrate the local database to the droplet database using the Migration Wizard in MySql 
 
 - Push the project to your new GitHub repository
