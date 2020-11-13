@@ -23,7 +23,7 @@ created in MySql
 - Migrate the local database to the droplet database using the Migration Wizard in MySql 
 
 - Push the project to your new GitHub repository
-- Log in to Travis-ci.com and change the environment variables
+- Log in to Travis-ci.com and change the environment variables, or type "mvn clean test -Dremote.user=USER -Dremote.password=PW tomcat7:deploy" in Git Bash
 - Trigger build and see that it passes
 
 - After making changes to the project, in Git Bash, type "mvn clean test" before pushing
