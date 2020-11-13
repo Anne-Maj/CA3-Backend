@@ -10,6 +10,7 @@ Link to frontend: https://github.com/jbndk/CA3-Frontend
 Backend
 - Clone the project from GitHub
 - Delete the folder named ".git"
+- Make your own ".git" by typing "git init" in Git Bash
 - Create a new repository on GitHub
 - Rename the project in Netbeans and check that the war-file has the name that you would like the project to have
 after your domain. 
