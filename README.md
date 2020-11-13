@@ -35,6 +35,7 @@ created in MySql
 Frontend
 - Clone the GitHub repo
 - Change the URL in the settings.js folder
+- In Git Bash, type "npm install"
 - Type "npm start" to see the project in your browser
 
 
